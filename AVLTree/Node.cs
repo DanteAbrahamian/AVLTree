@@ -4,11 +4,11 @@ using System.Text;
 
 namespace AVLTree
 {
-    internal class Node<T>
+    public class Node<T>
     {
-        public Node<T> Right { get; internal set; }
-        public Node<T> Left { get; internal set; }
-        public T Value { get; internal set; }
+        public Node<T> Right { get; set; }
+        public Node<T> Left { get; set; }
+        public T Value { get; set; }
         public int Height { get;  set; }
         public int Balance 
         { 
@@ -17,10 +17,11 @@ namespace AVLTree
             {
                 Balance = Right.Height - Left.Height;
             }
+
         }
         public Node(T value)
         {
-            
+            Value = value;
         }
         void updateHeight()
         {

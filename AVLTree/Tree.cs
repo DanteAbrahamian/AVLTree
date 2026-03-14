@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Text;
 
 namespace AVLTree
@@ -8,35 +9,85 @@ namespace AVLTree
     {
         int count = 0;
         Node<T> root;
-        
-       
+        int a = 0;
         public void Insert(T thingToInsert)
         {
-            Node<T> temp = root;
-            if (root == null)
+            root = Insert(thingToInsert, root);
+        }
+        private Node<T> Insert(T thingToInsert, Node<T> curr)
+        {
+
+            if (curr is null)
             {
-                root = new Node<T>(thingToInsert);
-                return;
+                count++;
+                return new Node<T>(thingToInsert);
             }
-            else if (thingToInsert.CompareTo(temp.Value) < 0)
+            else
             {
-                if (temp.Left != null)
+                if (thingToInsert.CompareTo(curr.Value) < 0)
                 {
-                    temp = temp.Left;
-                    Insert(thingToInsert);
+                    curr.Left = Insert(thingToInsert, curr.Left);
+                    return curr;
                 }
-                temp.Left = new Node<T>(thingToInsert);
+                else if (thingToInsert.CompareTo(curr.Value) > 0)
+                {
+                    curr.Right = Insert(thingToInsert, curr.Right);
+                    return curr;
+                }
             }
-            else if (thingToInsert.CompareTo(temp.Value) > 0)
+            return curr;
+        }
+        public void remove(T thingToRemove)
+        {
+            root = remove(thingToRemove, root);
+        }
+        public Node<T> remove(T thingToRemove, Node<T> curr)
+        {
+            if (curr is null)
             {
-                if (temp.Right != null)
-                { 
-                    temp = temp.Right;
-                    Insert(thingToInsert);
-                }
-                temp.Right = new Node<T>(thingToInsert);
+                return null;
             }
+            //if curr is null, (value doesn't exist in tree)
+
+            if (curr.Value.Equals(thingToRemove))
+            {
+                if (curr.Right is null)
+                {
+                    return null;
+                }
+                else
+                {
+                    Node<T> temp = curr.Left;
+                    curr = curr.Right;
+                    curr.Left = temp;
+
+                    return curr;
+                }
+
+                if (curr.Right != null && curr.Left != null)
+                {
+
+                }
+                //if doesn't have children return null
+                //if has children, return the node it get's replaced with
+            }
+            else
+            {
+                if (thingToRemove.CompareTo(curr.Value) < 0)
+                {
+                    curr.Left = remove(thingToInsert, curr.Left);
+                    return curr;
+                }
+                else if (thingToInsert.CompareTo(curr.Value) > 0)
+                {
+                    curr.Right = remove(thingToInsert, curr.Right);
+                    return curr;
+                }
+            }
+
+
+            return curr;
         }
     }
-    
 }
+
