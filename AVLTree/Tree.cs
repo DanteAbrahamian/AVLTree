@@ -13,13 +13,16 @@ namespace AVLTree
         public void Insert(T thingToInsert)
         {
             root = Insert(thingToInsert, root);
+            
         }
         private Node<T> Insert(T thingToInsert, Node<T> curr)
         {
+            
 
             if (curr is null)
             {
                 count++;
+                
                 return new Node<T>(thingToInsert);
             }
             else
@@ -27,14 +30,19 @@ namespace AVLTree
                 if (thingToInsert.CompareTo(curr.Value) < 0)
                 {
                     curr.Left = Insert(thingToInsert, curr.Left);
+                    curr.updateHeight();
+                    
                     return curr;
                 }
                 else if (thingToInsert.CompareTo(curr.Value) > 0)
                 {
                     curr.Right = Insert(thingToInsert, curr.Right);
+                    curr.updateHeight();
+
                     return curr;
                 }
             }
+            curr.updateHeight();
             return curr;
         }
         public void remove(T thingToRemove)
@@ -75,18 +83,52 @@ namespace AVLTree
             {
                 if (thingToRemove.CompareTo(curr.Value) < 0)
                 {
-                    curr.Left = remove(thingToInsert, curr.Left);
+                    curr.Left = remove(thingToRemove, curr.Left);
                     return curr;
                 }
-                else if (thingToInsert.CompareTo(curr.Value) > 0)
+                else if (thingToRemove.CompareTo(curr.Value) > 0)
                 {
-                    curr.Right = remove(thingToInsert, curr.Right);
+                    curr.Right = remove(thingToRemove, curr.Right);
                     return curr;
                 }
             }
 
 
             return curr;
+        }
+        public Node<T> rotateLeft(Node<T> thingToRotate)
+        {
+            if (thingToRotate.)
+                { 
+            
+            }
+            if (//negative rotate right)
+                { 
+            
+            }
+        }
+        public Node<T> rotateRight(Node<T> thingToRotate)
+        {
+            Node<T> tempR;
+            Node<T> tempL;
+            tempL = thingToRotate.Left;
+            tempL = thingToRotate;
+            tempR = thingToRotate;
+
+        }
+        public Node<T> Balance(Node<T> nodeToBalance)
+        {
+            Node<T> rightTemp;
+            Node<T> leftTemp;
+            if (nodeToBalance.Balance >= 2)
+            {
+
+            }
+            else if (nodeToBalance.Balance <= -2)
+            {
+                
+                
+            }
         }
     }
 }

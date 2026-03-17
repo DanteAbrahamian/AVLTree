@@ -11,7 +11,7 @@
             tree.Insert(3);
             tree.Insert(1);
             tree.Insert(2);
-            tree.remove(1);
+            //tree.remove(1);
             ;
         }
 

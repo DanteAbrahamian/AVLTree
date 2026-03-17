@@ -22,11 +22,26 @@ namespace AVLTree
         public Node(T value)
         {
             Value = value;
+            Height = 1;
         }
-        void updateHeight()
+        public void updateHeight()
         {
-
+            
+            if (Left == null)
+            {
+                Height = Right.Height + 1;
+            }
+            else if (Right == null)
+            {
+                Height = Left.Height + 1;
+            }
+            else
+            {
+                Height = Math.Max(Right.Height, Left.Height);
+                Balance = Right.Height - Left.Height;
+            }
         }
+        
             
 
 
