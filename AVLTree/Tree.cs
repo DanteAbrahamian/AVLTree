@@ -8,7 +8,7 @@ namespace AVLTree
     public class Tree<T> where T : IComparable<T>
     {
         int count = 0;
-        Node<T> root;
+        public Node<T> root;
         int a = 0;
         public void Insert(T thingToInsert)
         {
@@ -17,12 +17,12 @@ namespace AVLTree
         }
         private Node<T> Insert(T thingToInsert, Node<T> curr)
         {
-            
+
 
             if (curr is null)
             {
                 count++;
-                
+
                 return new Node<T>(thingToInsert);
             }
             else
@@ -32,22 +32,24 @@ namespace AVLTree
                     curr.Left = Insert(thingToInsert, curr.Left);
                     curr.updateHeight();
                     
-                    return curr;
+                    return Balance(curr);
                 }
                 else if (thingToInsert.CompareTo(curr.Value) > 0)
                 {
                     curr.Right = Insert(thingToInsert, curr.Right);
                     curr.updateHeight();
-
-                    return curr;
+                    
+                    return Balance(curr);
                 }
             }
             curr.updateHeight();
-            return curr;
+                    
+            return Balance(curr);
         }
         public void remove(T thingToRemove)
         {
             root = remove(thingToRemove, root);
+            
         }
         public Node<T> remove(T thingToRemove, Node<T> curr)
         {
@@ -68,14 +70,10 @@ namespace AVLTree
                     Node<T> temp = curr.Left;
                     curr = curr.Right;
                     curr.Left = temp;
-
-                    return curr;
+                    
+                    return Balance(curr);
                 }
 
-                if (curr.Right != null && curr.Left != null)
-                {
-
-                }
                 //if doesn't have children return null
                 //if has children, return the node it get's replaced with
             }
@@ -84,52 +82,64 @@ namespace AVLTree
                 if (thingToRemove.CompareTo(curr.Value) < 0)
                 {
                     curr.Left = remove(thingToRemove, curr.Left);
-                    return curr;
+                    
+                    return Balance(curr);
                 }
                 else if (thingToRemove.CompareTo(curr.Value) > 0)
                 {
                     curr.Right = remove(thingToRemove, curr.Right);
-                    return curr;
+                    
+                    return Balance(curr);
                 }
             }
 
-
-            return curr;
+            
+            return Balance(curr);
         }
+        
         public Node<T> rotateLeft(Node<T> thingToRotate)
         {
-            if (thingToRotate.)
-                { 
-            
-            }
-            if (//negative rotate right)
-                { 
-            
-            }
+            Node<T> tempRight = thingToRotate.Right;
+            Node<T> tempLeft = tempRight.Left;
+            Node<T> tempRightRight = tempRight.Right;
+            tempRight.Left = thingToRotate;
+            tempRight.Right = tempLeft;
+            thingToRotate.Right = tempLeft;
+            tempRight.Right = tempRightRight;
+            tempRight.updateHeight();
+            tempLeft.updateHeight();
+            tempRightRight.updateHeight();
+            thingToRotate.updateHeight();
+            return tempRight;
         }
         public Node<T> rotateRight(Node<T> thingToRotate)
         {
-            Node<T> tempR;
-            Node<T> tempL;
-            tempL = thingToRotate.Left;
-            tempL = thingToRotate;
-            tempR = thingToRotate;
-
+            Node<T> tempLeft = thingToRotate.Left;
+            Node<T> tempRight = tempLeft.Right;
+            Node<T> tempLeftLeft = tempLeft.Left;
+            tempLeft.Right = thingToRotate;
+            tempLeft.Left = tempRight;
+            thingToRotate.Left = tempRight;
+            tempLeft.Left = tempLeftLeft;
+            tempLeft.updateHeight();
+            
+            tempLeftLeft.updateHeight();
+            thingToRotate.updateHeight();
+            return tempLeft;
         }
-        public Node<T> Balance(Node<T> nodeToBalance)
+        public Node<T> Balance(Node<T> thingToRotate)
         {
-            Node<T> rightTemp;
-            Node<T> leftTemp;
-            if (nodeToBalance.Balance >= 2)
+            if (thingToRotate.Balance < -1)
             {
-
+                return rotateRight(thingToRotate);
             }
-            else if (nodeToBalance.Balance <= -2)
+            else if (thingToRotate.Balance > 1)
             {
-                
-                
+                return rotateLeft(thingToRotate);
             }
+            return thingToRotate;
         }
+
     }
 }
 

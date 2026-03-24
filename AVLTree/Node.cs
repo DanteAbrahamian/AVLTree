@@ -6,16 +6,29 @@ namespace AVLTree
 {
     public class Node<T>
     {
+       
         public Node<T> Right { get; set; }
         public Node<T> Left { get; set; }
         public T Value { get; set; }
         public int Height { get;  set; }
         public int Balance 
-        { 
-            get;
-            set 
+        {
+            get
             {
-                Balance = Right.Height - Left.Height;
+                if (Right == null && Left == null)
+                {
+                    return 0;
+                }
+                if (Right == null)
+                {
+                    return -Left.Height;
+                }
+                if (Left == null)
+                {
+                    return Right.Height;
+                }
+                
+                return  Right.Height - Left.Height;
             }
 
         }
@@ -23,6 +36,7 @@ namespace AVLTree
         {
             Value = value;
             Height = 1;
+          
         }
         public void updateHeight()
         {
@@ -38,7 +52,7 @@ namespace AVLTree
             else
             {
                 Height = Math.Max(Right.Height, Left.Height);
-                Balance = Right.Height - Left.Height;
+               
             }
         }
         
