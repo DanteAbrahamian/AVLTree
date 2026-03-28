@@ -40,12 +40,15 @@ namespace AVLTree
         }
         public void updateHeight()
         {
-            
-            if (Left == null)
+            if (Left == null && Right == null)
+            {
+                Height = 1;
+            }
+            else if (Left == null && Right !=null)
             {
                 Height = Right.Height + 1;
             }
-            else if (Right == null)
+            else if (Right == null && Left != null)
             {
                 Height = Left.Height + 1;
             }
