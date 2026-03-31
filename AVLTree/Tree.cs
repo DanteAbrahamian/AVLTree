@@ -187,7 +187,7 @@
 
         }
         // Deletion Helper Function
-        // Handles Edge casess of finding the proper node to replace the one that is being removed
+        // Handles Edge casess of finding the proper node to replace the one that is being removed 
         Node<T> Helper(Node<T> curr)
         {
             if (curr.Right == null && curr.Right == null) return null;
