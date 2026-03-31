@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using System.Reflection.Emit;
 using System.Text;
 
@@ -53,40 +54,71 @@ namespace AVLTree
             root.updateHeight();
             count--;
         }
-        public Node<T> remove(T thingToRemove, Node<T> curr)
+        public Node<T> remove(T nodeToRemove, Node<T> curr)
         {
+            // Edge case: Entire Tree is Null
+            //If curr is null, (value doesn't exist in tree)
+            /////////////////////////////////
             if (curr is null)
             {
-                //nullRemove = false;
                 return null;
             }
-            //if curr is null, (value doesn't exist in tree)
+            // 1. Find the node that needs to be removed.
+            // 2. Replace with the left of that node and right all the way (if node is on the left side of the root)
+            // 3. Replace with the right of that node and all the way left (if the node is on the right side of the root))
             if (curr.Right != null && curr.Left != null)
             {
-                Node<T> temp = curr.Left;
-                Node<T> ttemp = temp;
+                // Left of node to remove
+                Node<T> leftNode = null;
+                // after left the far right of it;
+                Node<T> farRight = null;
                 for (int index = 0; index < curr.Height; index++)
                 {
-                    if (temp.Right != null)
+                    if (curr.Right.Equals(nodeToRemove)) break;
+                    if (nodeToRemove.CompareTo(curr.Value) < 0) curr = curr.Left;
+                    else curr = curr.Right;
+                }
+                leftNode = curr.Right;
+                leftNode = leftNode.Left;
+                farRight = leftNode;
+                while (farRight.Right != null) farRight = farRight.Right;
+                curr.Right = farRight;
+                
+            }
+
+            return Balance(curr);
+
+
+
+
+
+
+
+
+
+
+
+
+                /*
+                for (int index = 0; index < curr.Height; index++)
+                {
+                    if (farRight.Right != null)
                     {
-                        temp = temp.Right;
+                        farRight = farRight.Right;
                     }
-                    if (temp.Right != null)
+                    if (farRight.Right != null)
                     {
-                        ttemp = ttemp.Right;
+                        farRight = farRight.Right;
                     }
                 }
+                curr.Value = farRight.Value;
                 
-                curr.Value = temp.Value;
-                ttemp.Right = null;
-                
-                
+                //farRight.Right = null;
             }
             if (curr.Value.Equals(thingToRemove))
             {
                 if (curr.Right is null || curr.Left is null)
                 {
-
                     return null;
                 }
                 else
@@ -94,10 +126,8 @@ namespace AVLTree
                     Node<T> temp = curr.Left;
                     curr = curr.Right;
                     curr.Left = temp;
-                    
                     return Balance(curr);
                 }
-
                 //if doesn't have children return null
                 //if has children, return the node it get's replaced with
             }
@@ -119,8 +149,10 @@ namespace AVLTree
 
             
             return Balance(curr);
+        
+                */
+            
         }
-
         public Node<T> rotateLeft(Node<T> thingToRotate)
         {
             Node<T> tempRight = thingToRotate.Right;

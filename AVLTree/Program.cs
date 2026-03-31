@@ -13,6 +13,7 @@
                 
             }
             ;
+            // remove doesnt work'
             tree.remove(5);
             ;
         }
