@@ -14,9 +14,9 @@
             }
             ;
             // remove doesnt work'
-            tree.remove(5);
-            ;
-        }
+            //tree.remove(5);
+            //tree.remove(10);
+            }
 
     }
 }

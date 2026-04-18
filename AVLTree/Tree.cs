@@ -4,19 +4,19 @@
     {
         int count = 0;
         public Node<T> root;
-        int a = 0;
+        
 
         public void Insert(T thingToInsert)
         {
             root = Insert(thingToInsert, root);
-
+            
         }
         private Node<T> Insert(T thingToInsert, Node<T> curr)
         {
             if (curr is null)
             {
                 count++;
-
+                
                 return InsertHelper(thingToInsert);
             }
 
@@ -45,14 +45,42 @@
         }
 
         public void remove(T thingToRemove)
-        {
+         {
             root = remove(thingToRemove, root);
+            root.updateHeight();
+            Balance(root);
             root.updateHeight();
             count--;
         }
         public Node<T> remove(T nodeToRemove, Node<T> curr)
         {
-            if (nodeToRemove.CompareTo(curr.Value) < 0)
+            Node<T> temp = new Node<T>(root.Value);
+            if (nodeToRemove.Equals(root.Value))
+            {
+                if (root.Left is not null)
+                { 
+                    temp = root.Left;
+                    if (temp.Right != null)
+                    {
+                        while (temp.Right.Right != null)
+                        { 
+                            temp = temp.Right.Right;
+                            
+                        }
+                        
+                        root.Value = temp.Right.Value;
+                        temp.Right = null;
+                    }
+                    else
+                    {
+                        root.Left = root.Left.Left;
+                    }
+                    root.Value = temp.Value;
+
+                }
+                return root;
+            }
+            else if (nodeToRemove.CompareTo(curr.Value) < 0)
             {
                 curr.Left = remove(nodeToRemove, curr.Left);
                 curr.updateHeight();
@@ -70,120 +98,7 @@
             {
                 return Helper(curr);
             }
-            //// Edge case: Entire Tree is Null
-            ////If curr is null, (value doesn't exist in tree)
-            ///////////////////////////////////
-            //if (curr is null)
-            //{
-            //    return null;
-            //}
-            //// 1. Find the node that needs to be removed.
-            //// 2. Replace with the left of that node and right all the way (if node is on the left side of the root)
-            //// 3. Replace with the right of that node and all the way left (if the node is on the right side of the root))
-            //if (curr.Right != null && curr.Left != null)
-            //{
-            //    // Left of node to remove
-            //    Node<T> leftNode = null;
-            //    // after left the far right of it;
-            //    Node<T> farRight = null;
-            //    // Not Recursive finding the node
-            //    /*if (nodeToRemove.CompareTo(curr.Value) < 0)
-            //    {
-            //        leftNode = curr.Left;
-            //        leftNode = leftNode.Right;
-            //        farRight = leftNode;
-            //        while (farRight.Right != null) farRight = farRight.Right;
-            //        curr.Left = farRight;
-            //    }
-            //    for (int index = 0; index < curr.Height; index++)
-            //    {
-            //        if (curr.Right.Equals(nodeToRemove)) break;
-            //        if (nodeToRemove.CompareTo(curr.Value) < 0) curr = curr.Left;
-            //        else curr = curr.Right;
-            //    }
-            //    */
-            //    if (nodeToRemove.CompareTo(curr.Value) > 0)
-            //    {
-            //        curr.Right = remove(nodeToRemove, curr.Right);
-            //    }
-            //    else
-            //    {
-            //        curr = curr.Left = remove(nodeToRemove, curr.Left);
-            //    }
-            //    leftNode = curr.Right;
-            //    if (leftNode != null) leftNode = leftNode.Left;
-
-            //    curr.Right = Helper(curr.Right);
-            //    curr.Left = leftNode;
-            //    //works after this point
-            //    Balance(curr);
-            //    // Previous replacement finding and replacing
-            //    /*
-            //    leftNode = curr.Right;
-            //    leftNode = leftNode.Left;
-            //    farRight = leftNode;
-            //    while (farRight.Right != null) farRight = farRight.Right;
-            //    curr.Right = farRight;
-            //    farRight.Left = leftNode;
-            //    Balance(curr);
-            //    */
-            //}
-
-            //return Balance(curr);
-
-
-            /*
-            for (int index = 0; index < curr.Height; index++)
-            {
-                if (farRight.Right != null)
-                {
-                    farRight = farRight.Right;
-                }
-                if (farRight.Right != null)
-                {
-                    farRight = farRight.Right;
-                }
-            }
-            curr.Value = farRight.Value;
-
-            //farRight.Right = null;
-        }
-        if (curr.Value.Equals(thingToRemove))
-        {
-            if (curr.Right is null || curr.Left is null)
-            {
-                return null;
-            }
-            else
-            {
-                Node<T> temp = curr.Left;
-                curr = curr.Right;
-                curr.Left = temp;
-                return Balance(curr);
-            }
-            //if doesn't have children return null
-            //if has children, return the node it get's replaced with
-        }
-        else
-        {
-            if (thingToRemove.CompareTo(curr.Value) < 0)
-            {
-                curr.Left = remove(thingToRemove, curr.Left);
-
-                return Balance(curr);
-            }
-            else if (thingToRemove.CompareTo(curr.Value) > 0)
-            {
-                curr.Right = remove(thingToRemove, curr.Right);
-
-                return Balance(curr);
-            }
-        }
-
-
-        return Balance(curr);
-
-            */
+           
 
         }
         // Deletion Helper Function

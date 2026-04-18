@@ -54,13 +54,8 @@ namespace AVLTree
             }
             else
             {
-                Height = Math.Max(Right.Height, Left.Height);
-               
+                Height = Math.Max(Right.Height, Left.Height) + 1;
             }
         }
-        
-            
-
-
     }
 }
