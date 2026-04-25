@@ -4,19 +4,19 @@
     {
         int count = 0;
         public Node<T> root;
-        
+
 
         public void Insert(T thingToInsert)
         {
             root = Insert(thingToInsert, root);
-            
+
         }
         private Node<T> Insert(T thingToInsert, Node<T> curr)
         {
             if (curr is null)
             {
                 count++;
-                
+
                 return InsertHelper(thingToInsert);
             }
 
@@ -45,7 +45,7 @@
         }
 
         public void remove(T thingToRemove)
-         {
+        {
             root = remove(thingToRemove, root);
             root.updateHeight();
             Balance(root);
@@ -54,52 +54,125 @@
         }
         public Node<T> remove(T nodeToRemove, Node<T> curr)
         {
-            Node<T> temp = new Node<T>(root.Value);
-            if (nodeToRemove.Equals(root.Value))
-            {
-                if (root.Left is not null)
-                { 
-                    temp = root.Left;
-                    if (temp.Right != null)
+            Node<T> temp = new Node<T>(curr.Value);
+            Node<T> oppositeTemp = new Node<T>(curr.Value);
+            
+                if (curr.Left != null)
+                {
+                    ;
+                    if (nodeToRemove.Equals(curr.Value))
+                    {
+                        temp = curr.Left;
+                    }
+                    else
+                    { 
+                        while (nodeToRemove.CompareTo(curr.Left.Value) < 0)
+                        {
+                            temp = curr.Left;
+                        }
+                        temp = curr.Left;
+                    }
+
+
+                    if (temp.Right != null && nodeToRemove.Equals(root.Value))
                     {
                         while (temp.Right.Right != null)
-                        { 
-                            temp = temp.Right.Right;
-                            
+                        {
+                            temp = temp.Right;
                         }
-                        
-                        root.Value = temp.Right.Value;
-                        temp.Right = null;
+                        curr.Value = temp.Right.Value;
+                        oppositeTemp = temp.Right;
+                    }
+                else
+                {
+                    temp = curr.Left;
+                    if (temp.Right != null)
+                    { 
+                        while(temp.Right.Right != null)
+                        {
+                            temp = temp.Right;
+                        }
+                    }
+                    oppositeTemp = temp.Right;
+                    oppositeTemp = oppositeTemp.Left;
+                    curr = curr.Left;
+                    curr.Right = oppositeTemp;
+                }
+                temp.Right = oppositeTemp.Left;
+                }
+                else
+                {
+                    ;
+                    if (nodeToRemove.Equals(curr.Value))
+                    {
+                        temp = curr.Right;
                     }
                     else
                     {
-                        root.Left = root.Left.Left;
+                        while (nodeToRemove.CompareTo(curr.Right.Value) > 0)
+                        {
+                            temp = curr.Right;
+                        }
                     }
-                    root.Value = temp.Value;
+                    
+                    if (temp.Left != null)
+                    {
+                        while (temp.Left.Left != null)
+                        {
+                            temp = temp.Left;
+                        }
+                    }
+                    if (temp.Left != null)
+                    {
+                        curr.Value = temp.Left.Value;
+                        oppositeTemp = temp.Left;
+                    }
 
+                    temp.Left = oppositeTemp.Right;
                 }
-                return root;
-            }
-            else if (nodeToRemove.CompareTo(curr.Value) < 0)
-            {
-                curr.Left = remove(nodeToRemove, curr.Left);
-                curr.updateHeight();
-
                 return Balance(curr);
-            }
-            else if (nodeToRemove.CompareTo(curr.Value) > 0)
-            {
-                curr.Right = remove(nodeToRemove, curr.Right);
-                curr.updateHeight();
 
-                return Balance(curr);
-            }
-            else
+                //if (root.Left is not null)
+                //{ 
+                //    temp = root.Left;
+                //    if (temp.Right != null)
+                //    {
+                //        while (temp.Right.Right != null)
+                //        { 
+                //            temp = temp.Right;
+
+                //        }
+
+                //        root.Value = temp.Right.Value;
+                //        temp.Right = null;
+                //    }
+                //    else
+                //    {
+                //        root.Left = root.Left.Left;
+                //    }
+                //    root.Value = temp.Value;
+
+                //}
+                //return root;
+            
+            //else if (nodeToRemove.CompareTo(curr.Value) < 0)
+            //{
+            //    curr.Left = remove(nodeToRemove, curr);
+            //    curr.updateHeight();
+
+            //    return Balance(curr);
+            //}
+            //else if (nodeToRemove.CompareTo(curr.Value) > 0)
+            //{
+            //    curr.Right = remove(nodeToRemove, curr);
+            //    curr.updateHeight();
+
+            //    return Balance(curr);
+            //}
+            //else
             {
                 return Helper(curr);
             }
-           
-
         }
         // Deletion Helper Function
         // Handles Edge casess of finding the proper node to replace the one that is being removed 
@@ -117,7 +190,7 @@
                 }
                 return curr;
             }
-            
+
         }
 
 
@@ -151,7 +224,7 @@
             tempLeft.Left = tempRight;
             thingToRotate.Left = tempRight;
             tempLeft.Left = tempLeftLeft;
-            tempLeft.updateHeight();
+            //tempLeft.updateHeight();
             if (tempLeftLeft != null)
             {
                 tempLeftLeft.updateHeight();
