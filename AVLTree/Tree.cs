@@ -57,15 +57,18 @@
             Node<T> temp = new Node<T>(curr.Value);
             Node<T> oppositeTemp = new Node<T>(curr.Value);
             // edge case for removing root node
+            // actually does all the switching between nodes by comming here with recursion
             if (nodeToRemove.Equals(curr.Value))
             {
                 temp = curr.Left;
                 if (temp.Right != null)
+                {
                     while (temp.Right.Right != null)
                     {
 
                         temp = temp.Right;
                     }
+                }
                 curr.Value = temp.Right.Value;
                 oppositeTemp = temp.Right;
                 oppositeTemp = oppositeTemp.Left;
@@ -83,17 +86,17 @@
 
             }
             // if the nodeToRemove is greater than the curr
-            else if (nodeToRemove.CompareTo(curr.Right.Value) > 0)
+            else if (nodeToRemove.CompareTo(curr.Value) > 0)
             {
                 temp = curr.Right;
                 if (!nodeToRemove.Equals(temp.Value))
                 {
                     remove(nodeToRemove, temp);
                 }
-
+                // make it go back to the first if statement that actually swaps it.
 
             }
-            return temp;
+            return Balance(curr);
 
 
 

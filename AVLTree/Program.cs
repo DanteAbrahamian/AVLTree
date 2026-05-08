@@ -13,7 +13,7 @@
                 
             }
             ;
-            
+            // should make root 11
             tree.remove(15);
             // works until this point
             tree.remove(10);
