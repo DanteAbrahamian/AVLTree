@@ -15,6 +15,7 @@
             ;
             
             tree.remove(15);
+            // works until this point
             tree.remove(10);
             }
 

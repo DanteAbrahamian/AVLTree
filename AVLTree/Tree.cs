@@ -56,14 +56,56 @@
         {
             Node<T> temp = new Node<T>(curr.Value);
             Node<T> oppositeTemp = new Node<T>(curr.Value);
-            
-                if (curr.Left != null)
+            // edge case for removing root node
+            if (nodeToRemove.Equals(curr.Value))
+            {
+                temp = curr.Left;
+                if (temp.Right != null)
+                    while (temp.Right.Right != null)
+                    {
+
+                        temp = temp.Right;
+                    }
+                curr.Value = temp.Right.Value;
+                oppositeTemp = temp.Right;
+                oppositeTemp = oppositeTemp.Left;
+                temp.Right = oppositeTemp;
+                
+            }
+            // if nodeToRemove is less than the curr
+            else if (nodeToRemove.CompareTo(curr.Value) < 0)
+            {
+                temp = curr.Left;
+                if (!nodeToRemove.Equals(temp.Left.Value))
                 {
-                    ;
+                    remove(nodeToRemove, temp);
+                }
+
+            }
+            // if the nodeToRemove is greater than the curr
+            else if (nodeToRemove.CompareTo(curr.Right.Value) > 0)
+            {
+                temp = curr.Right;
+                if (!nodeToRemove.Equals(temp.Value))
+                {
+                    remove(nodeToRemove, temp);
+                }
+
+
+            }
+            return temp;
+
+
+
+            /*
+            if (curr.Left != null)
+                {
+                    // if curr is the node to remove
                     if (nodeToRemove.Equals(curr.Value))
                     {
                         temp = curr.Left;
                     }
+                    // if curr is not the node to remove
                     else
                     { 
                         while (nodeToRemove.CompareTo(curr.Left.Value) < 0)
@@ -72,8 +114,7 @@
                         }
                         temp = curr.Left;
                     }
-
-
+                    // if right is not null and the root is the node to remove
                     if (temp.Right != null && nodeToRemove.Equals(root.Value))
                     {
                         while (temp.Right.Right != null)
@@ -83,6 +124,7 @@
                         curr.Value = temp.Right.Value;
                         oppositeTemp = temp.Right;
                     }
+                // otherwise 
                 else
                 {
                     temp = curr.Left;
@@ -100,6 +142,7 @@
                 }
                 temp.Right = oppositeTemp.Left;
                 }
+
                 else
                 {
                     ;
@@ -173,6 +216,7 @@
             {
                 return Helper(curr);
             }
+            */
         }
         // Deletion Helper Function
         // Handles Edge casess of finding the proper node to replace the one that is being removed 
