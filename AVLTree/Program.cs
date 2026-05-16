@@ -14,9 +14,11 @@
             }
             ;
             // should make root 11
-            tree.remove(15);
+            tree.Remove(15);
             // works until this point
-            tree.remove(10);
+            tree.Remove(10);
+            tree.Remove(5);
+            tree.Remove(4);
             }
 
     }
